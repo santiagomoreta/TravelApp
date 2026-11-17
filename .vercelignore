@@ -1,0 +1,13 @@
+.env*
+.git/
+.next/
+.vercel/
+.vscode/
+node_modules/
+coverage/
+out/
+build/
+*.log
+*.tsbuildinfo
+.DS_Store
+PLAN_MAESTRO_TRAVEL_PLANNER.docx

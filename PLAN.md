@@ -104,6 +104,21 @@ Resumen operativo de `PLAN_MAESTRO_TRAVEL_PLANNER.docx`.
 	lint, tipos y build correctos. Sin nueva migración. No se afirma un nuevo E2E
 	de guardado de descargas ni una prueba nueva con otra cuenta o navegador físico.
 
+- Pruebas online en Vercel autorizadas el 17/11/2026 y primer despliegue correcto:
+	https://travel-app-zeta-blond.vercel.app, proyecto `travel-app` del espacio Hobby
+	`travel-app20`, Next.js y Node 24. Variables Production configuradas con Supabase
+	existente: mismos datos que en local, sin repetir migraciones ni seed.
+	Lockfile corregido de Azure DevOps privado a npm público: 505 URLs, mismas
+	versiones e integridades; `.npmrc` fija el registro público para próximas instalaciones.
+	Instalación limpia y compilación remotas superadas.
+	Acceso/registro HTTP 200; viajes/perfil anónimos redirigen a acceso.
+	Callbacks de Supabase confirmados guardados por el usuario; flujos de correo
+	y acceso online con cuenta real todavía pendientes de comprobar.
+	Aplicación Vercel autorizada en GitHub y repositorio `santiagomoreta/TravelApp`
+	conectado, con `main` como rama de producción: cada push inicia el despliegue
+	automático y actualiza la URL pública si la compilación termina correctamente.
+	Variables Preview sin configurar. Instrucciones reproducibles en README.
+
 ## Decisiones pendientes
 
 1. Idiomas: base local en `src/lib/i18n.ts`, sin añadir una librería por ahora. Evaluar `next-intl` al incorporar traducciones completas.

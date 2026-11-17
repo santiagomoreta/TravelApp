@@ -75,12 +75,57 @@ indicadas en `.env.example`, introducidas en `.env.local` (ignorado por Git).
 Usar solo la clave publica publishable o anon, nunca service_role ni una clave secreta.
 Las claves locales existentes no deben sobrescribirse.
 
+## Pruebas online en Vercel
+
+URL: https://travel-app-zeta-blond.vercel.app. Proyecto `travel-app`, espacio
+`travel-app20` (Hobby), Next.js y Node.js 24. Primer despliegue correcto el
+17/11/2026. Acceso y registro HTTP 200; viajes y perfil sin sesion redirigen
+al acceso. El inicio de sesion online con una cuenta real queda por comprobar.
+
+Usa el mismo Supabase que el desarrollo local: los cambios de viajes y archivos
+online afectan a los mismos datos. No ejecutar migraciones ni seed otra vez.
+Las variables configuradas en Vercel, entorno Production, son:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: URL del proyecto Supabase existente.
+- `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: su clave publica, nunca service_role.
+- `DATABASE_SCHEMA_READY=true`.
+- `SITE_URL=https://travel-app-zeta-blond.vercel.app`.
+
+En Supabase > Authentication > URL Configuration, establecer Site URL
+en `https://travel-app-zeta-blond.vercel.app` y anadir estas Redirect URLs sin
+borrar las locales:
+
+- `https://travel-app-zeta-blond.vercel.app/auth/callback`
+- `https://travel-app-zeta-blond.vercel.app/auth/callback?next=/actualizar-contrasena`
+
+El usuario confirmo guardada la configuracion de callbacks. Queda comprobar los
+flujos de confirmacion de correo y recuperacion online. Google sigue sin activarse.
+
+Para repetir el despliegue desde este equipo:
+
+```sh
+npx --yes vercel@65.17.0 deploy --prod --scope travel-app20
+```
+
+En otro equipo, iniciar sesion con `npx --yes vercel@65.17.0 login` y vincular
+primero con `npx --yes vercel@65.17.0 link --project travel-app --scope travel-app20`.
+Las variables se conservan en el proyecto remoto; no publicar archivos de entorno.
+`vercel.json` fija Next.js y `npm ci`; `.npmrc` y el lockfile usan npm publico,
+con las mismas versiones e integridades. `.vercelignore` excluye credenciales y archivos locales.
+
+La aplicacion Vercel esta autorizada para `santiagomoreta/TravelApp` y el proyecto
+esta conectado a ese repositorio. La rama de produccion es `main`: cada push
+inicia una compilacion automatica y, si termina correctamente, actualiza la URL
+publica existente. No hace falta ejecutar la CLI para cada publicacion.
+Preview no tiene variables configuradas en este cierre; usar `main` para las
+pruebas online. No subir credenciales ni repetir migraciones al publicar.
+
 ## Configuracion de Auth
 
 En Supabase, Authentication > URL Configuration:
 
-- Site URL: `http://127.0.0.1:3000`.
-- Redirect URLs: `http://127.0.0.1:3000/auth/callback` y
+- Site URL: `https://travel-app-zeta-blond.vercel.app`.
+- Redirect URLs locales adicionales: `http://127.0.0.1:3000/auth/callback` y
 	`http://127.0.0.1:3000/auth/callback?next=/actualizar-contrasena`.
 - Email habilitado y confirmacion del correo activada.
 
